@@ -13,45 +13,24 @@ const Home: NextPage = () => {
             <span className="block text-2xl mb-2">Welcome to</span>
             <span className="block text-4xl font-bold">zkUrnae</span>
           </h1>
-          <p className="text-center text-lg">
-            Get started by editing{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              packages/nextjs/pages/index.tsx
-            </code>
-          </p>
-          <p className="text-center text-lg">
-            Edit your smart contract{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              YourContract.sol
-            </code>{" "}
-            in{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              packages/hardhat/contracts
-            </code>
-          </p>
+          <p className="text-center text-lg">Discover zkUrnae: </p>
+          <p className="text-center text-lg">✅ Secure & Private Voting: Your vote, your secret.</p>
+          <p className="text-center text-lg">🌐 Transparent Elections: Trust in the process.</p>
+          <p className="text-center text-lg">🗳️ Accessible & Convenient: Vote from anywhere, anytime.</p>
+          <p className="text-center text-lg">🚀 Cutting-Edge Technology: Powered by Base, our advanced blockchain.</p>
         </div>
 
         <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
           <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
             <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <BugAntIcon className="h-8 w-8 fill-secondary" />
-              <p>
-                Tinker with your smart contract using the{" "}
-                <Link href="/debug" passHref className="link">
-                  Debug Contract
-                </Link>{" "}
-                tab.
-              </p>
+              <Link href="/debug" passHref className="link">
+                <BugAntIcon href="/debug" className="h-8 w-8 fill-secondary" />
+              </Link>{" "}
             </div>
             <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <SparklesIcon className="h-8 w-8 fill-secondary" />
-              <p>
-                Experiment with{" "}
-                <Link href="/example-ui" passHref className="link">
-                  Example UI
-                </Link>{" "}
-                to build your own UI.
-              </p>
+              <Link href="/example-ui" passHref className="link">
+                <SparklesIcon href="/example-ui" className="h-8 w-8 fill-secondary" />
+              </Link>{" "}
             </div>
           </div>
         </div>
