@@ -3,7 +3,7 @@
 
 
 // OpenZeppelin Contracts (last updated v5.0.0) (interfaces/draft-IERC6093.sol)
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.18;
 
 /**
  * @dev Standard ERC20 Errors
@@ -168,7 +168,7 @@ interface IERC1155Errors {
 
 // OpenZeppelin Contracts (last updated v5.0.0) (utils/math/SignedMath.sol)
 
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.18;
 
 /**
  * @dev Standard signed math utilities missing in the Solidity language.
@@ -214,7 +214,7 @@ library SignedMath {
 
 // OpenZeppelin Contracts (last updated v5.0.0) (utils/math/Math.sol)
 
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.18;
 
 /**
  * @dev Standard math utilities missing in the Solidity language.
@@ -632,7 +632,7 @@ library Math {
 
 // OpenZeppelin Contracts (last updated v5.0.0) (utils/Strings.sol)
 
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.18;
 
 
 
@@ -728,7 +728,7 @@ library Strings {
 
 // OpenZeppelin Contracts (last updated v5.0.0) (utils/Context.sol)
 
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.18;
 
 /**
  * @dev Provides information about the current execution context, including the
@@ -755,7 +755,7 @@ abstract contract Context {
 
 // OpenZeppelin Contracts (last updated v5.0.0) (token/ERC721/IERC721Receiver.sol)
 
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.18;
 
 /**
  * @title ERC721 token receiver interface
@@ -786,7 +786,7 @@ interface IERC721Receiver {
 
 // OpenZeppelin Contracts (last updated v5.0.0) (utils/introspection/IERC165.sol)
 
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.18;
 
 /**
  * @dev Interface of the ERC165 standard, as defined in the
@@ -814,7 +814,7 @@ interface IERC165 {
 
 // OpenZeppelin Contracts (last updated v5.0.0) (utils/introspection/ERC165.sol)
 
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.18;
 
 
 /**
@@ -843,7 +843,7 @@ abstract contract ERC165 is IERC165 {
 
 // OpenZeppelin Contracts (last updated v5.0.0) (token/ERC721/IERC721.sol)
 
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.18;
 
 
 /**
@@ -980,7 +980,7 @@ interface IERC721 is IERC165 {
 
 // OpenZeppelin Contracts (last updated v5.0.0) (token/ERC721/extensions/IERC721Enumerable.sol)
 
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.18;
 
 
 /**
@@ -1011,7 +1011,7 @@ interface IERC721Enumerable is IERC721 {
 
 // OpenZeppelin Contracts (last updated v5.0.0) (token/ERC721/extensions/IERC721Metadata.sol)
 
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.18;
 
 
 /**
@@ -1040,7 +1040,7 @@ interface IERC721Metadata is IERC721 {
 
 // OpenZeppelin Contracts (last updated v5.0.0) (token/ERC721/ERC721.sol)
 
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.18;
 
 
 
@@ -1525,7 +1525,7 @@ abstract contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Er
 
 // OpenZeppelin Contracts (last updated v5.0.0) (token/ERC721/extensions/ERC721Enumerable.sol)
 
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.18;
 
 
 
@@ -1716,7 +1716,7 @@ abstract contract ERC721Enumerable is ERC721, IERC721Enumerable {
     along with snarkJS. If not, see <https://www.gnu.org/licenses/>.
 */
 
-pragma solidity >=0.7.0 <0.9.0;
+pragma solidity ^0.8.18;
 
 contract Groth16VerifierUnreveal {
     // Scalar field size
@@ -1896,7 +1896,7 @@ contract Groth16VerifierUnreveal {
     along with snarkJS. If not, see <https://www.gnu.org/licenses/>.
 */
 
-pragma solidity >=0.7.0 <0.9.0;
+pragma solidity ^0.8.18;
 
 contract Groth16VerifierProof {
     // Scalar field size
@@ -2135,7 +2135,7 @@ contract Groth16VerifierProof {
 
 
 
-pragma solidity ^0.8.11;
+pragma solidity ^0.8.18;
 
 
 

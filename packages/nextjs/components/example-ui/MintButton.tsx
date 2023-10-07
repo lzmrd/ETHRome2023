@@ -12,7 +12,7 @@ export const MintButton = () => {
 
   return (
     <button
-      className="btn btn-primary rounded-full capitalize font-normal font-white w-24 flex items-center gap-1 hover:gap-2 transition-all tracking-widest"
+      className="btn btn-primary rounded-full capitalize font-normal font-white w-100 flex items-center gap-1 hover:gap-2 transition-all tracking-widest"
       onClick={() => writeAsync()}
       disabled={isLoading}
     >
@@ -20,7 +20,8 @@ export const MintButton = () => {
         <span className="loading loading-spinner loading-sm"></span>
       ) : (
         <>
-          Mint <ArrowSmallRightIcon className="w-3 h-3 mt-0.5" />
+          Mint a NFT to vote
+          <ArrowSmallRightIcon className="w-3 h-3 mt-0.5" />
         </>
       )}
     </button>
