@@ -9,7 +9,7 @@ The goals are mainly 2:
   -Break the relation between a voter and vote behind a relayer.
   -Keep the votes unrevealed until the term of the proposal, while not compromising privacy once the vote is revealed.
 
-## User xp
+## Voter perspective
 An user that is eligibile for a vote can pick up a private input to compute an hash and recreate commit-reveal pattern.
 Once he has a public hashed value he can then create a commit to the contract and use that hash to produce a zk-proof.
 From now on the user can create a zk verification calldata to have an onchain verify the proof is valid.
