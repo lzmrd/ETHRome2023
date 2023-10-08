@@ -21,7 +21,7 @@ export const SendCommitHashBox = () => {
           <div className="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-5">
             <input
               type="string"
-              placeholder="Insert your vote preimage"
+              placeholder="Insert preimage"
               className="input font-bai-jamjuree w-full px-5 bg-[url('/assets/gradient-bg.png')] bg-[length:100%_100%] border border-primary text-lg sm:text-2xl placeholder-white uppercase"
               onChange={e => setNewHash(e.target.value)}
             />

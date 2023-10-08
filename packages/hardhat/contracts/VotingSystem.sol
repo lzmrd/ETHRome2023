@@ -2154,8 +2154,14 @@ contract VotingSystem is ERC721Enumerable {
         uint256 indexed proposalId,
         uint256 optionIndex
     );
-    event ProposalCreated(uint256 indexed proposalId, uint256 phase1ExpirationDate, uint256 phase2ExpirationDate, uint256[] options);
-    Groth16VerifierProof public verifierProof;
+    event ProposalCreated(
+        uint256 indexed proposalId,
+        uint256 phase1ExpirationDate,
+        uint256 phase2ExpirationDate,
+        string[] options
+    );
+    
+    Groth16VerifierProof    public verifierProof;
     Groth16VerifierUnreveal public verifierUnreveal;
 
     uint256     public maxSupply;
@@ -2163,17 +2169,18 @@ contract VotingSystem is ERC721Enumerable {
     uint256     public committementCounter;
     uint256     public ongoingPhase1Timer;
     uint256     public ongoingPhase2Timer;
-    uint256[]   public ongoingOptions;
     uint256[]   public counterparts;
+    string[]    internal ongoingOptions;
+
+    mapping (uint256=>mapping(address=>bool))  internal commitFrom;
+    mapping (address=>uint256)  internal mintedFrom;
+    mapping (uint256=>uint256)  public winningIndexByProposalID;
+    mapping (uint256=>string)  public winningStringByProposalID;
+    mapping (uint256=> mapping(uint256=>bool)) internal nullifiers;
+    mapping (uint256=> mapping(uint256=>bool)) internal voteNullifiers;
+    mapping (uint256=> mapping(uint256=>uint256)) public voteAggregates;
     
-    mapping (address=>bool)  public commitFrom;
-    mapping (address=>uint256)  public mintedFrom;
-    mapping (uint256=>uint256)  public winnerByProposal;
-    mapping (uint256=> mapping(uint256=>bool)) public nullifiers;
-    mapping (uint256=> mapping(uint256=>bool)) public nullifiers2;
-    mapping (uint256=>uint256)  public voteAggregates;
-    
-    constructor() ERC721("Urnae","URNAE"){
+    constructor() ERC721("UrnaePass","URNAE"){
         verifierProof = new Groth16VerifierProof();
         verifierUnreveal = new Groth16VerifierUnreveal();
         maxSupply = 2e3;
@@ -2185,45 +2192,55 @@ contract VotingSystem is ERC721Enumerable {
         mintedFrom[msg.sender]++;
         _safeMint(msg.sender, totalSupply()+1);
     }
-    function aaa() public view returns (uint256){
+
+    function timestamp() public view returns (uint256){
         return block.timestamp;
     }
+
     function createProposal(
         uint256 phase1Timer,
         uint256 phase2Timer,
-        uint[] memory options
+        string[] memory options
         ) public {
         require(balanceOf(msg.sender) > 0, "Can't create a proposal");
         require(block.timestamp > ongoingPhase2Timer, "Proposal ongoing");
-        require(phase1Timer < phase2Timer && phase1Timer > block.timestamp, "");
+        require(phase1Timer < phase2Timer && phase1Timer > block.timestamp, ""); 
+        require(options.length > 1, "Not enough options");
         ongoingPhase1Timer = phase1Timer;
         ongoingPhase2Timer = phase2Timer;
-        winnerByProposal[proposalCounter] = checkVerdict(ongoingOptions); 
-        emit ProposalWinner(proposalCounter, winnerByProposal[proposalCounter]);
+        if (proposalCounter != 0){
+        (winningIndexByProposalID[proposalCounter],
+         winningStringByProposalID[proposalCounter]) = checkVerdict(); 
+        }
+        
+        emit ProposalWinner(proposalCounter, winningIndexByProposalID[proposalCounter]);
         delete ongoingOptions;
         delete committementCounter;
         ongoingOptions = options;
-        ++proposalCounter;
-        emit ProposalCreated(proposalCounter, phase1Timer, phase2Timer, options);
+        ++proposalCounter; 
+
+     
     }
 
-    function checkVerdict(uint256[] memory voteAllocation) public pure returns(uint256){
-        //Draw and ballotage in v2 
+    function checkVerdict() internal view returns(uint256, string memory){
+        //been lazy on draws. 
         uint256 currentHighest;
-        uint256 winnerIndex;
-        for (uint i; i < voteAllocation.length; ){
-            if (voteAllocation[i] > currentHighest) {
-                currentHighest = voteAllocation[i];
-                winnerIndex = i;
+        uint256 winningIndex;
+        for (uint i; i < ongoingOptions.length; ){
+            if (voteAggregates[proposalCounter][i] > currentHighest) {
+                currentHighest = voteAggregates[proposalCounter][i];
+                winningIndex = i;
             }
             ++i;
         }
-        return winnerIndex;
+        return (winningIndex, ongoingOptions[winningIndex]);
     }
    
+    function OngoingOptions() external view returns(string[] memory){
+        return ongoingOptions;
+    }
 
 
-    // PHASE 1 
     function sendCommitHash(uint256 commit) public {
         require(commit < 1e76 && commit > 1e75, "Invalid commit length");
         require(balanceOf(msg.sender) > 0, "Can't vote");
@@ -2233,17 +2250,15 @@ contract VotingSystem is ERC721Enumerable {
         emit Commit(proposalCounter, msg.sender, committementCounter);
     }
 
-   
-
     function proofUnreaveledVote(
     uint[2] calldata _pA,
     uint[2][2] calldata _pB,
     uint[2] calldata _pC,
     uint[13] calldata _pubSignals
     ) public {
-        // require(!commitFrom[msg.sender], "Already committed");
+        require(!commitFrom[proposalCounter][msg.sender], "Already committed");
         require(verifierProof.verifyProof(_pA, _pB, _pC, _pubSignals),"InvalidProof");
-        // require(min x user to be committed before letting the user proove? ~
+        // require(minimum amount of user to be committed before letting the user proove? ~
         require(_pubSignals[2] != 0, "No match in chunkSum");
         require(!nullifiers[proposalCounter][_pubSignals[1]], "Invalid nullifier");
         require(block.timestamp < ongoingPhase1Timer, "");
@@ -2255,34 +2270,33 @@ contract VotingSystem is ERC721Enumerable {
         }
         //require(chunckSum ==_pubSignals[1], "ChunkSum dosent match"); 
         nullifiers[proposalCounter][_pubSignals[1]] = true;
-        commitFrom[msg.sender] == true;
+        commitFrom[proposalCounter][msg.sender] == true;
     }
   
-    function pickCounterparts(uint256[] memory counterpartsIndexes) public view returns (uint256){
+    /*function pickCounterparts(uint256[] memory counterpartsIndexes) public view returns (uint256){
         require(counterpartsIndexes.length <= 10, "Invalid length");
         uint256 counterpartChunkSum; 
         for (uint i; i < counterpartsIndexes.length;  ){
-            
             counterpartChunkSum += counterparts[counterpartsIndexes[i]] / 1000;
             ++i; 
         }
         return counterpartChunkSum;
-    }
+    }*/
 
 
-    //Phase 2 Functions
+    
     function proofRevaeledVote(
     uint[2] calldata _pA,
     uint[2][2] calldata _pB,
     uint[2] calldata _pC,
     uint[2] calldata _pubSignals
     ) public {
-        require(verifierUnreveal.verifyProof(_pA, _pB, _pC, _pubSignals),"InvalidProof");
+        require(verifierUnreveal.verifyProof(_pA, _pB, _pC, _pubSignals), "InvalidProof");
         require(block.timestamp < ongoingPhase2Timer, "Voting is over, unrevealed votes are null");
         require(block.timestamp > ongoingPhase1Timer, "Phase2 not started yet");
-        require(! nullifiers2[proposalCounter][_pubSignals[1]] == true, "Nullifier invalidated");
-        nullifiers2[proposalCounter][_pubSignals[1]] = true;
-        voteAggregates[_pubSignals[0]] += 1;
+        require(!voteNullifiers[proposalCounter][_pubSignals[1]] == true, "Nullifier invalidated");
+        voteNullifiers[proposalCounter][_pubSignals[1]] = true;
+        voteAggregates[proposalCounter][_pubSignals[0]] += 1;
         emit VoteUnrevealed(proposalCounter, _pubSignals[0]);
     }
 }

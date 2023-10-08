@@ -20,7 +20,7 @@ export const MintButton = () => {
         <span className="loading loading-spinner loading-sm"></span>
       ) : (
         <>
-          Mint a NFT to vote
+          Mint a NFT before vote
           <ArrowSmallRightIcon className="w-3 h-3 mt-0.5" />
         </>
       )}

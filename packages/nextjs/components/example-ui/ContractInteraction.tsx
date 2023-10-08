@@ -1,5 +1,4 @@
 import { CreateProposalBox } from "./CreateProposalBox";
-import { MintButton } from "./MintButton";
 import { CopyIcon } from "./assets/CopyIcon";
 import { DiamondIcon } from "./assets/DiamondIcon";
 import { HareIcon } from "./assets/HareIcon";
@@ -11,9 +10,6 @@ export const ContractInteraction = () => {
       <CopyIcon className="absolute bottom-0 left-36" />
       <HareIcon className="absolute right-0 bottom-24" />
       <div className="flex flex-col w-full mx-5 sm:mx-8 2xl:mx-20 justify-center items-center">
-        <div className="flex flex-col mt-6 px-7 py-8 bg-base-200 opacity-80 rounded-2xl shadow-lg border-2 border-primary">
-          <MintButton />
-        </div>
         <CreateProposalBox />
       </div>
     </div>
