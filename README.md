@@ -21,11 +21,11 @@ In a second phase another zk-proof proving contract can leverege the same relaye
 
 To use our protocol, you have to clone the repository and you should run:
 
-` ` `  yarn install ` ` ` 
+ `  yarn install ` 
 
 Once you installed all the dependencies, you can run:
 
-` ` `  yarn start ` ` ` 
+ `  yarn start ` 
 
 This will start your local server at localhost://3000. In this way you can interact through the frontend with the smart contract deployed on Base Goerli.
 
