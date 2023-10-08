@@ -27,7 +27,7 @@ Once you installed all the dependencies, you can run:
 
  `  yarn start ` 
 
-This will start your local server at localhost://3000. In this way you can interact through the frontend with the smart contract deployed on Base Goerli.
+This will start your local server at localhost:3000. In this way you can interact through the frontend with the smart contract deployed on Base Goerli.
 
 
 
