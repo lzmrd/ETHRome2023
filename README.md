@@ -5,8 +5,8 @@ We decided to build a voting protocol that implements zk Proof in order to manta
 ## Goals 
 
 The project is an exploration of a privacy voting system trough the use of zk-SNARKs.
-The goals are mainly 2:
-  -Break the relation between a voter and vote behind a relayer.
+The goals are mainly 2:<br/>
+  -Break the relation between a voter and vote behind a relayer. <br/>
   -Keep the votes unrevealed until the term of the proposal, while not compromising privacy once the vote is revealed.
 
 ## Voter perspective
